@@ -6,6 +6,9 @@ from user.models import User
 class AirplaneType(models.Model):
     name = models.CharField(max_length=63, unique=True)
 
+    def __str__(self):
+        return self.name
+
 
 # TODO: calculate seats_number
 class Airplane(models.Model):
@@ -18,16 +21,25 @@ class Airplane(models.Model):
         related_name="airplanes"
     )
 
+    def __str__(self):
+        return self.name
+
 
 # TODO: unique together
 class Crew(models.Model):
     first_name = models.CharField(max_length=63)
     last_name = models.CharField(max_length=63)
 
+    def __str__(self):
+        return f"{self.first_name} {self.last_name}"
+
 
 class Airport(models.Model):
     name = models.CharField(max_length=127)
     closest_big_city = models.CharField(max_length=127)
+
+    def __str__(self):
+        return self.name
 
 
 class Route(models.Model):
@@ -42,6 +54,9 @@ class Route(models.Model):
         related_name="destination_routes"
         )
     distance = models.PositiveIntegerField()
+
+    def __str__(self):
+        return f"{self.source} -> {self.destination}"
 
 
 class Flight(models.Model):
@@ -58,6 +73,9 @@ class Flight(models.Model):
     departure_time = models.DateTimeField()
     arrival_time = models.DateTimeField()
 
+    def __str__(self):
+        return f"{self.route} ({self.departure_time})"
+
 
 class Order(models.Model):
     created_at = models.DateTimeField(auto_now_add=True)
@@ -66,6 +84,9 @@ class Order(models.Model):
         on_delete=models.CASCADE,
         related_name="orders"
     )
+
+    def __str__(self):
+        return str(self.created_at)
 
 
 class Ticket(models.Model):
@@ -81,3 +102,6 @@ class Ticket(models.Model):
         on_delete=models.CASCADE,
         related_name="tickets"
     )
+
+    def __str__(self):
+        return f"{self.flight} (row: {self.row}, seat:{self.seat})"
