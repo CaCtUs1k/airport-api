@@ -1,3 +1,4 @@
+from django.core.exceptions import ValidationError
 from django.db import models
 
 from user.models import User
@@ -38,11 +39,15 @@ class Crew(models.Model):
     first_name = models.CharField(max_length=63)
     last_name = models.CharField(max_length=63)
 
+    @property
+    def full_name(self):
+        return f"{self.first_name} {self.last_name}"
+
     class Meta:
         unique_together = ("first_name", "last_name",)
 
     def __str__(self):
-        return f"{self.first_name} {self.last_name}"
+        return self.full_name
 
 
 class Airport(models.Model):
@@ -99,8 +104,11 @@ class Order(models.Model):
         related_name="orders"
     )
 
-    def __str__(self):
-        return str(self.created_at)
+    class Meta:
+        ordering = ["-created_at"]
+
+        def __str__(self):
+            return str(self.created_at)
 
 
 class Ticket(models.Model):
@@ -119,6 +127,28 @@ class Ticket(models.Model):
 
     class Meta:
         unique_together = ("row", "seat", "flight")
+
+    def clean(self):
+        if self.row > self.flight.airplane.rows:
+            raise ValidationError(
+                f"row must be in range (1, {self.flight.airplane.rows})"
+            )
+        if self.seat > self.flight.airplane.seats_in_row:
+            raise ValidationError(
+                f"seat must be in range (1, {self.flight.airplane.seats_in_row})"
+            )
+
+    def save(
+        self,
+        force_insert=False,
+        force_update=False,
+        using=None,
+        update_fields=None
+    ):
+        self.full_clean()
+        return super().save(
+            self, force_insert, force_update, using
+        )
 
     def __str__(self):
         return f"{self.flight} (row: {self.row}, seat:{self.seat})"
