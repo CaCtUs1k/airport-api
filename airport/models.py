@@ -12,7 +12,7 @@ class AirplaneType(models.Model):
 
 # TODO: calculate seats_number
 class Airplane(models.Model):
-    name = models.CharField(max_length=63)
+    name = models.CharField(max_length=63, unique=True)
     rows = models.PositiveIntegerField()
     seats_in_row = models.PositiveIntegerField()
     airplane_type = models.ForeignKey(
@@ -20,6 +20,14 @@ class Airplane(models.Model):
         on_delete=models.CASCADE,
         related_name="airplanes"
     )
+
+    @property
+    def capacity(self) -> int:
+        """PositiveInteger class isn't provide __mul__"""
+
+        row = int(self.rows)
+        seats = int(self.seats_in_row)
+        return row * seats
 
     def __str__(self):
         return self.name
@@ -30,12 +38,15 @@ class Crew(models.Model):
     first_name = models.CharField(max_length=63)
     last_name = models.CharField(max_length=63)
 
+    class Meta:
+        unique_together = ("first_name", "last_name",)
+
     def __str__(self):
         return f"{self.first_name} {self.last_name}"
 
 
 class Airport(models.Model):
-    name = models.CharField(max_length=127)
+    name = models.CharField(max_length=127, unique=True)
     closest_big_city = models.CharField(max_length=127)
 
     def __str__(self):
@@ -54,6 +65,9 @@ class Route(models.Model):
         related_name="destination_routes"
         )
     distance = models.PositiveIntegerField()
+
+    class Meta:
+        unique_together = ("source", "destination",)
 
     def __str__(self):
         return f"{self.source} -> {self.destination}"
@@ -102,6 +116,9 @@ class Ticket(models.Model):
         on_delete=models.CASCADE,
         related_name="tickets"
     )
+
+    class Meta:
+        unique_together = ("row", "seat", "flight")
 
     def __str__(self):
         return f"{self.flight} (row: {self.row}, seat:{self.seat})"
