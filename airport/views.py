@@ -1,4 +1,5 @@
 from rest_framework import viewsets
+from rest_framework.permissions import IsAuthenticated
 
 from airport.models import AirplaneType, Airplane, Crew, Airport, Route, Flight, Order, Ticket
 from airport.serializers import (
@@ -16,6 +17,7 @@ from airport.serializers import (
 class AirplaneTypeViewSet(viewsets.ModelViewSet):
     queryset = AirplaneType.objects.all()
     serializer_class = AirplaneTypeSerializer
+    permission_classes = (IsAuthenticated, )
 
 
 class AirplaneViewSet(viewsets.ModelViewSet):

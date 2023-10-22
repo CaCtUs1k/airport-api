@@ -107,8 +107,8 @@ class Order(models.Model):
     class Meta:
         ordering = ["-created_at"]
 
-        def __str__(self):
-            return str(self.created_at)
+    def __str__(self):
+        return str(self.created_at)
 
 
 class Ticket(models.Model):
