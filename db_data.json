@@ -3,21 +3,21 @@
     "model": "airport.airplanetype",
     "pk": 1,
     "fields": {
-      "name": "Boeing 737"
+      "name": "Boeing"
     }
   },
   {
     "model": "airport.airplanetype",
     "pk": 2,
     "fields": {
-      "name": "Airbus A320"
+      "name": "Airbus"
     }
   },
   {
     "model": "airport.airplanetype",
     "pk": 3,
     "fields": {
-      "name": "Embraer E175"
+      "name": "Embraer"
     }
   },
   {
@@ -78,24 +78,24 @@
     "model": "airport.airport",
     "pk": 1,
     "fields": {
-      "name": "Airport 1",
-      "closest_big_city": "City 1"
+      "name": "San Rafael Airport",
+      "closest_big_city": "San Rafael"
     }
   },
   {
     "model": "airport.airport",
     "pk": 2,
     "fields": {
-      "name": "Airport 2",
-      "closest_big_city": "City 2"
+      "name": "George Downer Airport",
+      "closest_big_city": "Aliceville"
     }
   },
   {
     "model": "airport.airport",
     "pk": 3,
     "fields": {
-      "name": "Airport 3",
-      "closest_big_city": "City 3"
+      "name": "Apataki Airport",
+      "closest_big_city": "Apataki"
     }
   },
   {
@@ -132,7 +132,10 @@
       "route": 1,
       "airplane": 1,
       "departure_time": "2023-10-21T12:00:00Z",
-      "arrival_time": "2023-10-21T14:00:00Z"
+      "arrival_time": "2023-10-21T14:00:00Z",
+      "crew": [
+        1
+      ]
     }
   },
   {
@@ -142,7 +145,10 @@
       "route": 2,
       "airplane": 2,
       "departure_time": "2023-10-22T12:00:00Z",
-      "arrival_time": "2023-10-22T14:00:00Z"
+      "arrival_time": "2023-10-22T14:00:00Z",
+      "crew": [
+        1, 2
+      ]
     }
   },
   {
@@ -152,7 +158,10 @@
       "route": 3,
       "airplane": 3,
       "departure_time": "2023-10-23T12:00:00Z",
-      "arrival_time": "2023-10-23T14:00:00Z"
+      "arrival_time": "2023-10-23T14:00:00Z",
+      "crew": [
+        3
+      ]
     }
   },
   {
