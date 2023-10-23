@@ -1,0 +1,265 @@
+[
+  {
+    "model": "airport.airplanetype",
+    "pk": 1,
+    "fields": {
+      "name": "Boeing"
+    }
+  },
+  {
+    "model": "airport.airplanetype",
+    "pk": 2,
+    "fields": {
+      "name": "Airbus"
+    }
+  },
+  {
+    "model": "airport.airplanetype",
+    "pk": 3,
+    "fields": {
+      "name": "Embraer"
+    }
+  },
+  {
+    "model": "airport.airplane",
+    "pk": 1,
+    "fields": {
+      "name": "Boeing 737-800",
+      "rows": 30,
+      "seats_in_row": 6,
+      "airplane_type": 1
+    }
+  },
+  {
+    "model": "airport.airplane",
+    "pk": 2,
+    "fields": {
+      "name": "Airbus A320-200",
+      "rows": 32,
+      "seats_in_row": 5,
+      "airplane_type": 2
+    }
+  },
+  {
+    "model": "airport.airplane",
+    "pk": 3,
+    "fields": {
+      "name": "Embraer E175-200",
+      "rows": 28,
+      "seats_in_row": 4,
+      "airplane_type": 3
+    }
+  },
+  {
+    "model": "airport.crew",
+    "pk": 1,
+    "fields": {
+      "first_name": "John",
+      "last_name": "Doe"
+    }
+  },
+  {
+    "model": "airport.crew",
+    "pk": 2,
+    "fields": {
+      "first_name": "Jane",
+      "last_name": "Smith"
+    }
+  },
+  {
+    "model": "airport.crew",
+    "pk": 3,
+    "fields": {
+      "first_name": "James",
+      "last_name": "Brown"
+    }
+  },
+  {
+    "model": "airport.airport",
+    "pk": 1,
+    "fields": {
+      "name": "San Rafael Airport",
+      "closest_big_city": "San Rafael"
+    }
+  },
+  {
+    "model": "airport.airport",
+    "pk": 2,
+    "fields": {
+      "name": "George Downer Airport",
+      "closest_big_city": "Aliceville"
+    }
+  },
+  {
+    "model": "airport.airport",
+    "pk": 3,
+    "fields": {
+      "name": "Apataki Airport",
+      "closest_big_city": "Apataki"
+    }
+  },
+  {
+    "model": "airport.route",
+    "pk": 1,
+    "fields": {
+      "source": 1,
+      "destination": 2,
+      "distance": 1000
+    }
+  },
+  {
+    "model": "airport.route",
+    "pk": 2,
+    "fields": {
+      "source": 2,
+      "destination": 3,
+      "distance": 1200
+    }
+  },
+  {
+    "model": "airport.route",
+    "pk": 3,
+    "fields": {
+      "source": 1,
+      "destination": 3,
+      "distance": 800
+    }
+  },
+  {
+    "model": "airport.flight",
+    "pk": 1,
+    "fields": {
+      "route": 1,
+      "airplane": 1,
+      "departure_time": "2023-10-21T12:00:00Z",
+      "arrival_time": "2023-10-21T14:00:00Z",
+      "crew": [
+        1
+      ]
+    }
+  },
+  {
+    "model": "airport.flight",
+    "pk": 2,
+    "fields": {
+      "route": 2,
+      "airplane": 2,
+      "departure_time": "2023-10-22T12:00:00Z",
+      "arrival_time": "2023-10-22T14:00:00Z",
+      "crew": [
+        1, 2
+      ]
+    }
+  },
+  {
+    "model": "airport.flight",
+    "pk": 3,
+    "fields": {
+      "route": 3,
+      "airplane": 3,
+      "departure_time": "2023-10-23T12:00:00Z",
+      "arrival_time": "2023-10-23T14:00:00Z",
+      "crew": [
+        3
+      ]
+    }
+  },
+  {
+    "model": "airport.order",
+    "pk": 1,
+    "fields": {
+      "created_at": "2023-10-21T10:00:00Z",
+      "user": 1
+    }
+  },
+  {
+    "model": "airport.order",
+    "pk": 2,
+    "fields": {
+      "created_at": "2023-10-22T10:00:00Z",
+      "user": 2
+    }
+  },
+  {
+    "model": "airport.order",
+    "pk": 3,
+  "fields": {
+    "created_at": "2023-10-23T10:00:00Z",
+    "user": 3
+    }
+  },
+  {
+    "model": "airport.ticket",
+    "pk": 1,
+    "fields": {
+      "row": 10,
+      "seat": 5,
+      "flight": 1,
+      "order": 1
+    }
+  },
+  {
+    "model": "airport.ticket",
+    "pk": 2,
+    "fields": {
+      "row": 12,
+      "seat": 7,
+      "flight": 2,
+      "order": 2
+    }
+  },
+  {
+    "model": "airport.ticket",
+    "pk": 3,
+    "fields": {
+      "row": 8,
+      "seat": 3,
+      "flight": 3,
+      "order": 3
+    }
+  },
+  {
+    "model": "user.user",
+    "pk": 1,
+    "fields": {
+      "username": "john_doe",
+      "first_name": "John",
+      "last_name": "Doe",
+      "password": "pbkdf2_sha256$600000$KCSLzqjRpsbvmvm0zQKQ0g$Ik6LIUGBbljKBiblBLbluiGlbBlbLbkcyXTxDh0mo=",
+      "email": "john@example.com"
+    }
+  },
+  {
+    "model": "user.user",
+    "pk": 2,
+    "fields": {
+      "username": "jane_smith",
+      "first_name": "Jane",
+      "last_name": "Smith",
+      "password": "pbkdf2_sha256$600000$KCSLzqjRpsbvmvm0zQKQ0g$IkUoisdJKGFgKVGKJfgjlkJLKjhVulub0xDh0mo=",
+      "email": "jane@example.com"
+    }
+  },
+  {
+    "model": "user.user",
+    "pk": 3,
+    "fields": {
+      "username": "james_brown",
+      "first_name": "James",
+      "last_name": "Brown",
+      "password": "pbkdf2_sha256$600000$KCSLzqjRpsbvmvm0zQKQ0g$Ik6GSIDSFIlnbvKYUGVvUYukVBjhawyrhb0xDh0mo=",
+      "email": "james@example.com"
+    }
+  },
+  {
+    "model": "user.user",
+    "pk": 4,
+    "fields": {
+      "username": "Test",
+      "first_name": "Test",
+      "last_name": "Account",
+      "password": "pbkdf2_sha256$600000$KCSLzqjRpsbvmvm0zQKQ0g$Ik6GHPqqjuLZzdFiwUUjUtoJEhwZCWawyrhb0xDh0mo=",
+      "email": "test@example.com"
+    }
+  }
+]
