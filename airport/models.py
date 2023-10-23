@@ -1,7 +1,6 @@
+from django.conf import settings
 from django.core.exceptions import ValidationError
 from django.db import models
-
-from user.models import User
 
 
 class AirplaneType(models.Model):
@@ -11,7 +10,6 @@ class AirplaneType(models.Model):
         return self.name
 
 
-# TODO: calculate seats_number
 class Airplane(models.Model):
     name = models.CharField(max_length=63, unique=True)
     rows = models.PositiveIntegerField()
@@ -95,11 +93,29 @@ class Flight(models.Model):
     def __str__(self):
         return f"{self.route} ({self.departure_time})"
 
+    def clean(self):
+        if self.arrival_time <= self.departure_time:
+            raise ValidationError(
+                f"Incorrect data(inconsistency with departure or arrival time)"
+            )
+
+    def save(
+        self,
+        force_insert=False,
+        force_update=False,
+        using=None,
+        update_fields=None
+    ):
+        self.full_clean()
+        return super().save(
+            force_insert, force_update, using, update_fields
+        )
+
 
 class Order(models.Model):
     created_at = models.DateTimeField(auto_now_add=True)
     user = models.ForeignKey(
-        User,
+        settings.AUTH_USER_MODEL,
         on_delete=models.CASCADE,
         related_name="orders"
     )
@@ -147,7 +163,7 @@ class Ticket(models.Model):
     ):
         self.full_clean()
         return super().save(
-            self, force_insert, force_update, using
+            force_insert, force_update, using, update_fields
         )
 
     def __str__(self):
