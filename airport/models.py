@@ -34,7 +34,6 @@ class Airplane(models.Model):
         return self.name
 
 
-# TODO: unique together
 class Crew(models.Model):
     first_name = models.CharField(max_length=63)
     last_name = models.CharField(max_length=63)
@@ -91,6 +90,7 @@ class Flight(models.Model):
     )
     departure_time = models.DateTimeField()
     arrival_time = models.DateTimeField()
+    crew = models.ManyToManyField(Crew, related_name="flights")
 
     def __str__(self):
         return f"{self.route} ({self.departure_time})"
