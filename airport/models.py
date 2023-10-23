@@ -15,9 +15,7 @@ class Airplane(models.Model):
     rows = models.PositiveIntegerField()
     seats_in_row = models.PositiveIntegerField()
     airplane_type = models.ForeignKey(
-        AirplaneType,
-        on_delete=models.CASCADE,
-        related_name="airplanes"
+        AirplaneType, on_delete=models.CASCADE, related_name="airplanes"
     )
 
     @property
@@ -41,7 +39,10 @@ class Crew(models.Model):
         return f"{self.first_name} {self.last_name}"
 
     class Meta:
-        unique_together = ("first_name", "last_name",)
+        unique_together = (
+            "first_name",
+            "last_name",
+        )
 
     def __str__(self):
         return self.full_name
@@ -57,19 +58,18 @@ class Airport(models.Model):
 
 class Route(models.Model):
     source = models.ForeignKey(
-        Airport,
-        on_delete=models.CASCADE,
-        related_name="source_routes"
+        Airport, on_delete=models.CASCADE, related_name="source_routes"
     )
     destination = models.ForeignKey(
-        Airport,
-        on_delete=models.CASCADE,
-        related_name="destination_routes"
-        )
+        Airport, on_delete=models.CASCADE, related_name="destination_routes"
+    )
     distance = models.PositiveIntegerField()
 
     class Meta:
-        unique_together = ("source", "destination",)
+        unique_together = (
+            "source",
+            "destination",
+        )
 
     def __str__(self):
         return f"{self.source} -> {self.destination}"
@@ -77,14 +77,10 @@ class Route(models.Model):
 
 class Flight(models.Model):
     route = models.ForeignKey(
-        Route,
-        on_delete=models.CASCADE,
-        related_name="flights"
+        Route, on_delete=models.CASCADE, related_name="flights"
     )
     airplane = models.ForeignKey(
-        Airplane,
-        on_delete=models.CASCADE,
-        related_name="flights"
+        Airplane, on_delete=models.CASCADE, related_name="flights"
     )
     departure_time = models.DateTimeField()
     arrival_time = models.DateTimeField()
@@ -104,12 +100,10 @@ class Flight(models.Model):
         force_insert=False,
         force_update=False,
         using=None,
-        update_fields=None
+        update_fields=None,
     ):
         self.full_clean()
-        return super().save(
-            force_insert, force_update, using, update_fields
-        )
+        return super().save(force_insert, force_update, using, update_fields)
 
 
 class Order(models.Model):
@@ -117,7 +111,7 @@ class Order(models.Model):
     user = models.ForeignKey(
         settings.AUTH_USER_MODEL,
         on_delete=models.CASCADE,
-        related_name="orders"
+        related_name="orders",
     )
 
     class Meta:
@@ -131,14 +125,10 @@ class Ticket(models.Model):
     row = models.PositiveIntegerField()
     seat = models.PositiveIntegerField()
     flight = models.ForeignKey(
-        Flight,
-        on_delete=models.CASCADE,
-        related_name="tickets"
+        Flight, on_delete=models.CASCADE, related_name="tickets"
     )
     order = models.ForeignKey(
-        Order,
-        on_delete=models.CASCADE,
-        related_name="tickets"
+        Order, on_delete=models.CASCADE, related_name="tickets"
     )
 
     class Meta:
@@ -159,12 +149,10 @@ class Ticket(models.Model):
         force_insert=False,
         force_update=False,
         using=None,
-        update_fields=None
+        update_fields=None,
     ):
         self.full_clean()
-        return super().save(
-            force_insert, force_update, using, update_fields
-        )
+        return super().save(force_insert, force_update, using, update_fields)
 
     def __str__(self):
         return f"{self.flight} (row: {self.row}, seat:{self.seat})"

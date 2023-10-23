@@ -16,6 +16,8 @@ class Migration(migrations.Migration):
         migrations.AddField(
             model_name="flight",
             name="crew",
-            field=models.ManyToManyField(related_name="flights", to="airport.crew"),
+            field=models.ManyToManyField(
+                related_name="flights", to="airport.crew"
+            ),
         ),
     ]

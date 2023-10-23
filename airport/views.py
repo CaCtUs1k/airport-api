@@ -7,7 +7,15 @@ from rest_framework.pagination import PageNumberPagination
 from rest_framework.permissions import IsAuthenticated
 from rest_framework.viewsets import GenericViewSet
 
-from airport.models import AirplaneType, Airplane, Crew, Airport, Route, Flight, Order
+from airport.models import (
+    AirplaneType,
+    Airplane,
+    Crew,
+    Airport,
+    Route,
+    Flight,
+    Order,
+)
 from airport.permissions import IsAdminOrIfAuthenticatedReadOnly
 from airport.serializers import (
     AirplaneTypeSerializer,
@@ -16,28 +24,24 @@ from airport.serializers import (
     AirportSerializer,
     RouteSerializer,
     FlightSerializer,
-    OrderSerializer, AirplaneListSerializer, FlightListSerializer, FlightDetailSerializer, RouteListSerializer,
+    OrderSerializer,
+    AirplaneListSerializer,
+    FlightListSerializer,
+    FlightDetailSerializer,
+    RouteListSerializer,
 )
 
 
-class AirplaneTypeViewSet(
-    ListModelMixin,
-    CreateModelMixin,
-    GenericViewSet
-):
+class AirplaneTypeViewSet(ListModelMixin, CreateModelMixin, GenericViewSet):
     queryset = AirplaneType.objects.all()
     serializer_class = AirplaneTypeSerializer
-    permission_classes = (IsAdminOrIfAuthenticatedReadOnly, )
+    permission_classes = (IsAdminOrIfAuthenticatedReadOnly,)
 
 
-class AirplaneViewSet(
-    CreateModelMixin,
-    ListModelMixin,
-    GenericViewSet
-):
+class AirplaneViewSet(CreateModelMixin, ListModelMixin, GenericViewSet):
     queryset = Airplane.objects.all()
     serializer_class = AirplaneSerializer
-    permission_classes = (IsAdminOrIfAuthenticatedReadOnly, )
+    permission_classes = (IsAdminOrIfAuthenticatedReadOnly,)
 
     def get_serializer_class(self):
         if self.action == "list":
@@ -45,14 +49,10 @@ class AirplaneViewSet(
         return self.serializer_class
 
 
-class CrewViewSet(
-    CreateModelMixin,
-    ListModelMixin,
-    GenericViewSet
-):
+class CrewViewSet(CreateModelMixin, ListModelMixin, GenericViewSet):
     queryset = Crew.objects.all()
     serializer_class = CrewSerializer
-    permission_classes = (IsAdminOrIfAuthenticatedReadOnly, )
+    permission_classes = (IsAdminOrIfAuthenticatedReadOnly,)
 
     def get_queryset(self):
         first_name = self.request.query_params.get("first_name")
@@ -79,8 +79,7 @@ class CrewViewSet(
                 "last_name",
                 type=OpenApiTypes.ANY,
                 description=(
-                        "Filter by crew's last_name "
-                        "(ex. ?last_name=Doe)"
+                    "Filter by crew's last_name " "(ex. ?last_name=Doe)"
                 ),
             ),
         ]
@@ -89,14 +88,10 @@ class CrewViewSet(
         return super().list(request, *args, **kwargs)
 
 
-class AirportViewSet(
-    CreateModelMixin,
-    ListModelMixin,
-    GenericViewSet
-):
+class AirportViewSet(CreateModelMixin, ListModelMixin, GenericViewSet):
     queryset = Airport.objects.all()
     serializer_class = AirportSerializer
-    permission_classes = (IsAdminOrIfAuthenticatedReadOnly, )
+    permission_classes = (IsAdminOrIfAuthenticatedReadOnly,)
 
     def get_queryset(self):
         name = self.request.query_params.get("name")
@@ -106,7 +101,9 @@ class AirportViewSet(
         if name:
             queryset = queryset.filter(name__icontains=name)
         if closest_big_city:
-            queryset = queryset.filter(closest_big_city__icontains=closest_big_city)
+            queryset = queryset.filter(
+                closest_big_city__icontains=closest_big_city
+            )
         return queryset
 
     @extend_schema(
@@ -120,8 +117,7 @@ class AirportViewSet(
                 "city",
                 type=OpenApiTypes.ANY,
                 description=(
-                        "Filter by closest_big_city "
-                        "(ex. ?city=San Rafael)"
+                    "Filter by closest_big_city " "(ex. ?city=San Rafael)"
                 ),
             ),
         ]
@@ -130,14 +126,10 @@ class AirportViewSet(
         return super().list(request, *args, **kwargs)
 
 
-class RouteViewSet(
-    CreateModelMixin,
-    ListModelMixin,
-    GenericViewSet
-):
+class RouteViewSet(CreateModelMixin, ListModelMixin, GenericViewSet):
     queryset = Route.objects.select_related("source", "destination")
     serializer_class = RouteSerializer
-    permission_classes = (IsAdminOrIfAuthenticatedReadOnly, )
+    permission_classes = (IsAdminOrIfAuthenticatedReadOnly,)
 
     def get_serializer_class(self):
         if self.action == "list":
@@ -166,8 +158,7 @@ class RouteViewSet(
                 "last_name",
                 type=OpenApiTypes.ANY,
                 description=(
-                        "Filter by crew's last_name "
-                        "(ex. ?last_name=Doe)"
+                    "Filter by crew's last_name " "(ex. ?last_name=Doe)"
                 ),
             ),
         ]
@@ -177,18 +168,16 @@ class RouteViewSet(
 
 
 class FlightViewSet(viewsets.ModelViewSet):
-    queryset = (
-        Flight.objects
-        .select_related("route__source", "route__destination", "airplane")
-        .annotate(
-            tickets_available=(
-                    F("airplane__rows") * F("airplane__seats_in_row")
-                    - Count("tickets")
-            )
+    queryset = Flight.objects.select_related(
+        "route__source", "route__destination", "airplane"
+    ).annotate(
+        tickets_available=(
+            F("airplane__rows") * F("airplane__seats_in_row")
+            - Count("tickets")
         )
     )
     serializer_class = FlightSerializer
-    permission_classes = (IsAdminOrIfAuthenticatedReadOnly, )
+    permission_classes = (IsAdminOrIfAuthenticatedReadOnly,)
 
     def get_serializer_class(self):
         if self.action == "list":
@@ -219,8 +208,8 @@ class FlightViewSet(viewsets.ModelViewSet):
                 "destination",
                 type=OpenApiTypes.ANY,
                 description=(
-                        "Filter by destination "
-                        "(ex. ?destination=San Rafael Airport)"
+                    "Filter by destination "
+                    "(ex. ?destination=San Rafael Airport)"
                 ),
             ),
         ]
@@ -234,15 +223,11 @@ class OrderPagination(PageNumberPagination):
     max_page_size = 10
 
 
-class OrderViewSet(
-    ListModelMixin,
-    CreateModelMixin,
-    GenericViewSet
-):
+class OrderViewSet(ListModelMixin, CreateModelMixin, GenericViewSet):
     queryset = Order.objects.all()
     serializer_class = OrderSerializer
     pagination_class = OrderPagination
-    permission_classes = (IsAuthenticated, )
+    permission_classes = (IsAuthenticated,)
 
     def get_queryset(self):
         return Order.objects.filter(user=self.request.user)
