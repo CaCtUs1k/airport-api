@@ -18,18 +18,18 @@ This project was created to demonstrate the developer's skills in the occupation
 
 `pip install -r requirements.txt`
 
-4) Use the following command to run migrations and load prepared data from fixture:
-
-`python manage.py migrate`
-
-`python manage.py loaddata db_data.json`
-
-5) Create .env file and enter the values of the variables:
+4) Create .env file and enter the values of the variables:
 
 Example: 
 
 - key: `SECRET_KEY`; value: `OcnfnCRopncxamOEFSIUNCCxce=-sceCE+F`,
 - key: `DEBUG_MODE`; value: `True`
+
+5) Use the following command to run migrations and load prepared data from fixture:
+
+`python manage.py migrate`
+
+`python manage.py loaddata db_data.json`
 
 6) Use command to run server:
 
